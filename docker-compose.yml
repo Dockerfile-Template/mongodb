@@ -1,0 +1,15 @@
+services:
+  db:
+    build: ./db
+    image: db
+    ports:
+      - "[ex_port]:27017"
+    volumes:
+      - ./data:/data/db
+    tty: true
+    restart: always
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 100s
+      retries: 6
